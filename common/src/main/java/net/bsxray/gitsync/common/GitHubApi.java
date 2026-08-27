@@ -93,9 +93,9 @@ public final class GitHubApi {
         String headCommit = null;
         String baseTree = null;
         try {
-            JsonObject ref = getJson(URI.create(API + "/repos/" + owner + "/" + repo
-                    + "/git/refs/heads/" + enc(branch)));
-            headCommit = ref.getAsJsonObject("object").get("sha").getAsString();
+            JsonObject branchObj = getJson(URI.create(API + "/repos/" + owner + "/" + repo
+                    + "/branches/" + enc(branch)));
+            headCommit = branchObj.getAsJsonObject("commit").get("sha").getAsString();
             JsonObject commit = getJson(URI.create(API + "/repos/" + owner + "/" + repo
                     + "/git/commits/" + enc(headCommit)));
             baseTree = commit.get("tree").getAsString();
@@ -188,7 +188,27 @@ public final class GitHubApi {
         if (r.statusCode() >= 300) {
             throw new GitHubApiException(r.statusCode(), r.body());
         }
-        return JsonParser.parseString(r.body()).getAsJsonObject();
+        String body = r.body();
+        try {
+            JsonElement el = JsonParser.parseString(body);
+            if (el != null && el.isJsonObject()) {
+                return el.getAsJsonObject();
+            }
+            // Response was not a JSON object (e.g. an array or empty).
+            throw new GitHubApiException(r.statusCode(),
+                    "Antwort ist kein JSON-Objekt (Status " + r.statusCode() + "): " + truncate(body));
+        } catch (GitHubApiException e) {
+            throw e;
+        } catch (RuntimeException e) {
+            throw new GitHubApiException(r.statusCode(),
+                    "Unlesbare JSON-Antwort (Status " + r.statusCode() + "): " + truncate(body));
+        }
+    }
+
+    private static String truncate(String s) {
+        if (s == null) return "";
+        String t = s.replace("\n", " ").trim();
+        return t.length() > 200 ? t.substring(0, 200) + "..." : t;
     }
 
     private HttpResponse<String> send(String method, URI uri, JsonObject body) throws Exception {
