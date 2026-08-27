@@ -1,0 +1,16 @@
+name: gitsync-host
+version: 1.0.0
+main: net.bsxray.gitsync.host.HostPlugin
+api-version: "1.21"
+author: bsxray
+description: Laedt konfigurierte Ordner von diesem Server in eine private GitHub-Repo hoch.
+commands:
+  gitsync:
+    description: GitSync Host - Upload in private GitHub-Repo
+    usage: /gitsync upload|reload|status
+    permission: gitsync.admin
+    aliases: [gitsync-host]
+permissions:
+  gitsync.admin:
+    description: Erlaubt GitSync-Befehle zu nutzen
+    default: op

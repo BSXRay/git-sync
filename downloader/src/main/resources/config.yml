@@ -1,0 +1,31 @@
+# ============================================================
+#  GitSync DOWNLOADER - Autor: bsxray
+#  Laedt den Inhalt einer privaten GitHub-Repo in einen Ordner
+#  auf diesem Server und ueberschreibt die vorhandenen Dateien.
+#
+#  Befehl:   /gitsync download
+#  Weitere:  /gitsync reload  |  /gitsync status
+# ============================================================
+
+github:
+  # Dein GitHub-Benutzername (der Owner der Repo)
+  owner: "BSXRay"
+  # Name der privaten GitHub-Repo
+  repo: "nexo-config"
+  # Personal Access Token
+  #   - Klassisch:   Permission "repo"
+  #   - Fein-granular: Contents -> Read
+  # WICHTIG: Gebe diesen Token niemals weiter oder committe ihn!
+  token: "DEIN_PERSONAL_ACCESS_TOKEN"
+  # Branch, aus dem heruntergeladen werden soll
+  branch: "main"
+
+sync:
+  # Ordner auf diesem Server, in den der Repo-Inhalt geladen werden soll
+  # (relativ zum Server-Ordner). Wird mit den Daten aus der Repo ueberschrieben.
+  path: "plugins"
+  # Unterordner in der Repo, der geladen werden soll (leer = komplette Repo)
+  repo-path: ""
+  # true = loescht auch Dateien im Zielordner, die NICHT in der Repo sind.
+  # Dadurch ist der Zielordner nach dem Download exakt wie die Repo.
+  delete-extra-files: true

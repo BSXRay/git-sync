@@ -1,0 +1,29 @@
+# ============================================================
+#  GitSync HOST - Autor: bsxray
+#  Laedt Ordner von diesem Server in eine private GitHub-Repo hoch.
+#
+#  Befehl:   /gitsync upload
+#  Weitere:  /gitsync reload  |  /gitsync status
+# ============================================================
+
+github:
+  # Dein GitHub-Benutzername (der Owner der Repo)
+  owner: "BSXRay"
+  # Name der privaten GitHub-Repo
+  repo: "nexo-config"
+  # Personal Access Token
+  #   - Klassisch:  Permission "repo" (voller Zugriff)
+  #   - Fein-granular: Contents -> Read & Write
+  # WICHTIG: Gebe diesen Token niemals weiter oder committe ihn!
+  token: "DEIN_PERSONAL_ACCESS_TOKEN"
+  # Branch, in den hochgeladen werden soll
+  branch: "main"
+
+sync:
+  # Ordner auf diesem Server, der hochgeladen werden soll (relativ zum Server-Ordner).
+  # Beispiel: "plugins" oder "plugins/MeinPlugin" oder "world"
+  path: "plugins"
+  # Unterordner in der Repo, in den alles geladen wird (leer lassen = Repo-Wurzel).
+  repo-path: ""
+  # Commit-Nachricht, die bei jeder Datei geschrieben wird
+  commit-message: "GitSync Upload"

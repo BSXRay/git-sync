@@ -1,0 +1,16 @@
+name: gitsync-downloader
+version: 1.0.0
+main: net.bsxray.gitsync.downloader.DownloaderPlugin
+api-version: "1.21"
+author: bsxray
+description: Laedt den Inhalt einer privaten GitHub-Repo in einen Ordner auf diesem Server und ueberschreibt ihn.
+commands:
+  gitsync:
+    description: GitSync Downloader - Download aus privater GitHub-Repo
+    usage: /gitsync download|reload|status
+    permission: gitsync.admin
+    aliases: [gitsync-downloader]
+permissions:
+  gitsync.admin:
+    description: Erlaubt GitSync-Befehle zu nutzen
+    default: op

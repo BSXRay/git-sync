@@ -1,0 +1,15 @@
+# Gradle / Build
+.gradle/
+build/
+
+# Built plugin jars in the project root
+*.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
