@@ -36,21 +36,29 @@ public final class SyncEngine {
         }
 
         List<FileData> toUpload = new ArrayList<>();
+        int errors = 0;
         for (Path f : files) {
             String rel = local.relativize(f).toString().replace('\\', '/');
             String remote = join(cfg.repoPathOrRoot(), rel);
-            toUpload.add(new FileData(remote, Files.readAllBytes(f)));
-            log.accept("[GitSync] Gelesen: " + remote);
+            try {
+                toUpload.add(new FileData(remote, Files.readAllBytes(f)));
+                log.accept("[GitSync] Gelesen: " + remote);
+            } catch (Exception e) {
+                errors++;
+                log.accept("[GitSync] Lesefehler bei " + remote + ": " + e.getMessage());
+            }
         }
 
-        int count;
-        try {
-            count = api.pushAll(toUpload, cfg.commitMessage);
-            log.accept("[GitSync] Alle " + count + " Dateien in einem Commit hochgeladen.");
-        } catch (Exception e) {
-            throw new IOException("Upload fehlgeschlagen: " + e.getMessage(), e);
+        int count = 0;
+        if (!toUpload.isEmpty()) {
+            try {
+                count = api.pushAll(toUpload, cfg.commitMessage);
+                log.accept("[GitSync] Alle " + count + " Dateien in einem Commit hochgeladen.");
+            } catch (Exception e) {
+                throw new IOException("Upload fehlgeschlagen: " + e.getMessage(), e);
+            }
         }
-        return new UploadResult(count, 0, files.size());
+        return new UploadResult(count, errors, files.size());
     }
 
     /**

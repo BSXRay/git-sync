@@ -22,13 +22,20 @@ public final class DownloaderPlugin extends GitSyncPlugin {
     @Override
     public void run(Config cfg, List<String> lines) {
         lines.add("§e[GitSync] Lade herunter aus Repo " + cfg.owner + "/" + cfg.repo + " -> " + cfg.localPath);
+        getLogger().info("Starte Download aus " + cfg.owner + "/" + cfg.repo + " nach " + cfg.localPath);
         try {
-            DownloadResult r = SyncEngine.download(cfg, m -> lines.add("§7" + m));
+            DownloadResult r = SyncEngine.download(cfg, m -> {
+                lines.add("§7" + m);
+                getLogger().info(m);
+            });
             lines.add("§a[GitSync] Fertig. Heruntergeladen: " + r.downloaded + ", Fehler: " + r.errors
+                    + ", Entfernt: " + r.removed + " Dateien.");
+            getLogger().info("Download fertig. Heruntergeladen: " + r.downloaded + ", Fehler: " + r.errors
                     + ", Entfernt: " + r.removed + " Dateien.");
         } catch (Exception e) {
             lines.add("§c[GitSync] Fehler beim Download: " + e.getMessage());
             getLogger().severe("Download-Fehler: " + e.getMessage());
+            getLogger().log(java.util.logging.Level.WARNING, "Download-Ausnahme (Stacktrace):", e);
         }
     }
 }
