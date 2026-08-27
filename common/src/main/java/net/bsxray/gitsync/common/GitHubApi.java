@@ -98,7 +98,7 @@ public final class GitHubApi {
             headCommit = branchObj.getAsJsonObject("commit").get("sha").getAsString();
             JsonObject commit = getJson(URI.create(API + "/repos/" + owner + "/" + repo
                     + "/git/commits/" + enc(headCommit)));
-            baseTree = commit.get("tree").getAsString();
+            baseTree = commit.getAsJsonObject("tree").get("sha").getAsString();
         } catch (GitHubApiException e) {
             if (e.code != 404) throw e;
             // Branch does not exist yet -> will be created on push.
