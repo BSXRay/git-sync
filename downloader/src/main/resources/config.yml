@@ -10,8 +10,8 @@
 github:
   # Dein GitHub-Benutzername (der Owner der Repo)
   owner: "BSXRay"
-  # Name der Sync-Daten-Repo (von hier werden die Server-Dateien heruntergeladen)
-  repo: "git-sync"
+  # Name der Sync-Daten-Repo (von hier werden die Server-Daten heruntergeladen)
+  repo: "nexo-config"
   # Personal Access Token
   #   - Klassisch:   Permission "repo"
   #   - Fein-granular: Contents -> Read
