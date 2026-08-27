@@ -138,13 +138,15 @@ public final class GitHubApi {
         String commitSha = commitRes.get("sha").getAsString();
 
         // Update (or create) the branch reference to the new commit.
-        String ref = "refs/heads/" + branch;
+        String qualifiedRef = "refs/heads/" + branch;
         if (headCommit != null) {
-            patchJson(URI.create(API + "/repos/" + owner + "/" + repo + "/git/refs/" + ref),
+            // Update a reference: the URL path must use the short form "heads/<branch>".
+            patchJson(URI.create(API + "/repos/" + owner + "/" + repo + "/git/refs/heads/" + enc(branch)),
                     shaBody(commitSha));
         } else {
+            // Create a reference: the JSON "ref" field must be fully qualified.
             JsonObject create = new JsonObject();
-            create.addProperty("ref", ref);
+            create.addProperty("ref", qualifiedRef);
             create.addProperty("sha", commitSha);
             postJson(URI.create(API + "/repos/" + owner + "/" + repo + "/git/refs"), create);
         }
