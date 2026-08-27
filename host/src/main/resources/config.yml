@@ -9,8 +9,8 @@
 github:
   # Dein GitHub-Benutzername (der Owner der Repo)
   owner: "BSXRay"
-  # Name der privaten GitHub-Repo
-  repo: "nexo-config"
+  # Name der Sync-Daten-Repo (hierhin werden die Server-Dateien hochgeladen)
+  repo: "git-sync"
   # Personal Access Token
   #   - Klassisch:  Permission "repo" (voller Zugriff)
   #   - Fein-granular: Contents -> Read & Write
